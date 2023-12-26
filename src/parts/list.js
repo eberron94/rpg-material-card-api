@@ -20,6 +20,8 @@ exports.list = {
             content.unshift(span(markupUtil.stylize(name), 'line-name'));
         }
 
+        content.unshift(span("", "line-symbol"))
+
         return div(content, 'element list');
     },
 };

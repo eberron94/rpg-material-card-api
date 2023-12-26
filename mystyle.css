@@ -1,0 +1,32 @@
+.element {
+  margin: 0.2rem 0.1rem;
+}
+
+
+
+.element .italics,
+.element.subtitle {
+  font-style: italic;
+}
+
+.element .bold,
+.element .line-name {
+  font-weight: bold;
+}
+
+.element .line-name:after {
+  content: " ";
+}
+
+.element.list {
+  padding-left: 1rem;
+}
+.element.list .line-symbol {
+  position: relative;
+  left: -0.5rem;
+  bottom: 0.2rem;
+}
+.element.list .line-symbol::after {
+  content: "▶";
+  font-size: 0.5rem;
+}
