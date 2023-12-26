@@ -1,24 +1,24 @@
-const fs = require('fs');
-const { cardFront } = require('./src/card/cardFront');
+const fs = require("fs");
+const { cardFront } = require("./src/card/cardFront");
 
 exports.materialCard = cardFront;
 
 const saveFile = (name, data) => {
-    try {
-        if (typeof data === 'object') {
-            const jsonStr = JSON.stringify(data, null, 4);
-            fs.writeFile(name, jsonStr, (err) => {
-                if (err) return console.log(err);
-                console.log('saved ' + name);
-            });
-        } else if (typeof data === 'string')
-            fs.writeFile(name, data, (err) => {
-                if (err) return console.log(err);
-                console.log('saved ' + name);
-            });
-    } catch (err) {
-        console.log(err);
-    }
+  try {
+    if (typeof data === "object") {
+      const jsonStr = JSON.stringify(data, null, 4);
+      fs.writeFile(name, jsonStr, (err) => {
+        if (err) return console.log(err);
+        console.log("saved " + name);
+      });
+    } else if (typeof data === "string")
+      fs.writeFile(name, data, (err) => {
+        if (err) return console.log(err);
+        console.log("saved " + name);
+      });
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 const testCard = {
@@ -60,4 +60,9 @@ const testCard = {
     },
 };
 
-saveFile('text.html', cardFront(testCard));
+saveFile(
+  "text.html",
+  '<!DOCTYPE html><html><head><link rel="stylesheet" href="mystyle.css"></head><body>' +
+    cardFront(testCard) +
+    "</body></html>"
+);
