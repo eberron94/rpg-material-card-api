@@ -40,7 +40,7 @@ const defaultClassNames = () => ({
         format: {
             bold: 'bold',
             italic: 'italic',
-            bolditalic: 'bolditalic',
+            bolditalic: 'bold italic',
             underline: 'underline',
             strike: 'strike',
             superscript: 'superscript',
