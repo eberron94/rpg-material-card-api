@@ -1,4 +1,5 @@
 const { arrayUtil } = require('./arrayUtil');
+const { CLASSNAMES } = require('./classUtil');
 
 const CLASS_PREPEND = '';
 
@@ -17,19 +18,25 @@ const joinClassNames = (...args) =>
 const element =
     (elem, classNameCommon = '') =>
     (children, className = '', property = '') => {
-        const totalClassName = joinClassNames(classNameCommon, className);
+        const totalClassName = joinClassNames(
+            classNameCommon || '',
+            className || ''
+        );
 
         return `<${elem} class='${totalClassName}' ${property}>${arrayUtil.iron(
             children
         )}</${elem}>`;
     };
 
-const elementDiv = (classNameCommon = '') => element('div', classNameCommon);
-const elementSpan = (classNameCommon = '') => element('span', classNameCommon);
+const elementDiv = (classNameCommon = '') =>
+    element('div', [CLASSNAMES.element.div, classNameCommon]);
+const elementSpan = (classNameCommon = '') =>
+    element('span', [CLASSNAMES.element.span, classNameCommon]);
 
-const elementP = (classNameCommon) => element('div', [classNameCommon, '-p']);
+const elementP = (classNameCommon) =>
+    element('div', [CLASSNAMES.element.p, classNameCommon]);
 const elementListItem = (classNameCommon) =>
-    element('div', [classNameCommon, '-li']);
+    element('div', [CLASSNAMES.element.listitem, classNameCommon]);
 
 module.exports = {
     element,

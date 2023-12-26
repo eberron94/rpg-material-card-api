@@ -1,3 +1,4 @@
+const { CLASSNAMES } = require('../helper/classUtil');
 const { splitParams } = require('../helper/dataUtil');
 const { elementDiv, element } = require('../helper/elementUtil');
 const { partManager } = require('../parts');
@@ -8,19 +9,19 @@ exports.cardFront = (params) => {
     const div = elementDiv();
 
     const titleElement = title(params);
-    const content = div(makeContent(params), 'content');
+    const content = div(makeContent(params), CLASSNAMES.front.content);
 
-    return div([titleElement, content], 'card card-front');
+    return div([titleElement, content], CLASSNAMES.front.root);
 };
 
-const makeContent = (props) => {
-    const { cardData } = props;
+const makeContent = (params) => {
+    const { cardData, options } = params;
     const { contents } = cardData;
 
     const smartContents = contents
         .concat([''])
         .map(splitParams)
-        .map(addHtmlToContent);
+        .map(addHtmlToContent(cardData));
 
     const groupedContent = groupTableContent(smartContents);
 
@@ -28,14 +29,14 @@ const makeContent = (props) => {
         if (arr.length === 0) return null;
         if (arr.length === 1) return arr[0].html; // handle elemental
 
-        return makeTable(arr, props);
+        return makeTable(arr, params);
     });
 };
 
-const addHtmlToContent = (content, props) => {
+const addHtmlToContent =(cardData) => (content, props) => {
     const { type } = content;
 
-    content.html = partManager.getElement(type)({ ...props, ...content });
+    content.html = partManager.getElement(type)({ ...props, ...content }, cardData);
     return content;
 };
 

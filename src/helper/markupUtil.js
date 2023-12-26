@@ -1,7 +1,9 @@
-const { elementSpan } = require('./elementUtil');
+const { CLASSNAMES } = require('./classUtil');
+const { iconBundleInline } = require('./dataUtil');
+const { elementSpan, element } = require('./elementUtil');
 
 const replaceBoldItalics = (string) => {
-    const boldItalic = elementSpan('bold italics');
+    const boldItalic = elementSpan(CLASSNAMES.inline.format.bolditalic);
 
     return string.replace(/[_*]{3}([^\*]+)[_*]{3}/g, (_, match) =>
         boldItalic(match)
@@ -9,13 +11,13 @@ const replaceBoldItalics = (string) => {
 };
 
 const replaceBold = (string) => {
-    const bold = elementSpan('bold');
+    const bold = elementSpan(CLASSNAMES.inline.format.bold);
 
     return string.replace(/[_*]{2}([^\*]+)[_*]{2}/g, (_, match) => bold(match));
 };
 
 const replaceItalics = (string) => {
-    const italics = elementSpan('italics');
+    const italics = elementSpan(CLASSNAMES.inline.format.italic);
 
     return string.replace(/[_*]{1}([^\*]+)[_*]{1}/g, (_, match) =>
         italics(match)
@@ -23,9 +25,33 @@ const replaceItalics = (string) => {
 };
 
 const replaceNewLineCarrots = (string) => {
-    const lineBreak = elementSpan('line-break')('<br/>');
+    const lineBreak = elementSpan(CLASSNAMES.inline.linebreak)('<br/>');
 
     return string.replace(/(?:<br *\/?>|\^\^)/g, lineBreak);
+};
+
+const replaceIconInline = (string) => {
+    const iconImg = element('img', CLASSNAMES.inline.icon);
+
+    return string.replace(
+        /(?:\{|\[\[) ?icon? ([^\]\}]+)? (?:\}|\]\])/g,
+        (_, match) => {
+            const { path, rotation } = iconBundleInline(match);
+            return iconImg(
+                '',
+                CLASSNAMES.inline.icon + '-' + match,
+                `src="${path}" style="transform:rotate${rotation}deg"`
+            );
+        }
+    );
+};
+
+const replaceTitle = (string, cardData) => {
+    const title = elementSpan(CLASSNAMES.inline.title);
+
+    return string.replace(/(\{title\}|\[\[title\]\])/g, (_, match) =>
+        title(cardData?.title || 'TITLE')
+    );
 };
 
 const replacePathfinder2EActions = (string) => {
@@ -64,7 +90,7 @@ const shinkExtraSpace = (string) => {
     return string.replace(/  +/g, ' ');
 };
 
-const stylize = (string) => {
+const stylize = (string, params) => {
     switch (typeof string) {
         case 'string':
             break;
@@ -77,16 +103,18 @@ const stylize = (string) => {
     }
 
     return [
+        replaceTitle,
         replaceBoldItalics,
         replaceBold,
         replaceItalics,
         replaceNewLineCarrots,
         replacePathfinder2EActions,
+        replaceIconInline,
 
         //TODO: Inject custom stylizers?
 
         shinkExtraSpace,
-    ].reduce((editString, fn) => fn(editString), string);
+    ].reduce((editString, fn) => fn(editString, params), string);
 };
 
 exports.markupUtil = { stylize };

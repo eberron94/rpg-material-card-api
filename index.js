@@ -40,6 +40,7 @@ const testCard = {
             'bullet | New line | A line with two carrots will break into a new line.^^Like this.',
             'bullet | ndash | Two dashes will become a ndash--like this.',
             'bullet | mdash | Three dashes will become a mdash---like this.',
+            'text | example of title substitution: {title} or [[title]]',
         ],
     },
     options: {
