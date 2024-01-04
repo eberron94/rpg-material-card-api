@@ -15,13 +15,13 @@ exports.cardFront = (params) => {
 };
 
 const makeContent = (params) => {
-    const { cardData, options } = params;
+    const { cardData, options, iconMap } = params;
     const { contents } = cardData;
 
     const smartContents = contents
         .concat([''])
         .map(splitParams)
-        .map(addHtmlToContent(cardData));
+        .map(addHtmlToContent(cardData, options, iconMap));
 
     const groupedContent = groupTableContent(smartContents);
 
@@ -33,10 +33,10 @@ const makeContent = (params) => {
     });
 };
 
-const addHtmlToContent =(cardData) => (content, props) => {
+const addHtmlToContent =(cardData, options, iconMap) => (content, props) => {
     const { type } = content;
 
-    content.html = partManager.getElement(type)({ ...props, ...content }, cardData);
+    content.html = partManager.getElement(type)({ ...props, ...content }, cardData, options, iconMap);
     return content;
 };
 

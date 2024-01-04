@@ -1,15 +1,17 @@
+const { CLASSNAMES } = require('../helper/classUtil');
 const { traitTextArray } = require('../helper/dataUtil');
 const { elementDiv, elementSpan } = require('../helper/elementUtil');
 
-const TYPE_KEYS = [
-    'pftrait','trait'
-];
+const TYPE_KEYS = ['pftrait', 'trait'];
 
 exports.pftrait = {
     isType: (key) => TYPE_KEYS.includes(key),
     element: (params) => {
-        const div = elementDiv();
-        const trait = elementSpan('trait');
+        const div = elementDiv([
+            CLASSNAMES.content.root,
+            CLASSNAMES.content.pfTraitGroup,
+        ]);
+        const trait = elementSpan(CLASSNAMES.content.pfTraitItem);
 
         const content = traitTextArray(params).map((text) => {
             switch (text) {
@@ -23,6 +25,6 @@ exports.pftrait = {
             }
         });
 
-        return div(content, 'element pftrait');
+        return div(content);
     },
 };

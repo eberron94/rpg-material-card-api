@@ -20,27 +20,27 @@ const getIconBundle = (iconString, iconMap) => {
         /([-a-z0-9]+)((?:#|%)[-a-z0-9]+)?((?:#|%)[-a-z0-9]+)?/
     );
 
-    const [_, iconName, op1, op2] = result;
-    [op1, op2]
-        .filter((op) => typeof op === 'string' && op)
-        .forEach((op) => {
-            const code = op.charAt(0);
-            const value = op.substring(1);
+    const [_, iconName] = result;
+    // [op1, op2]
+    //     .filter((op) => typeof op === 'string' && op)
+    //     .forEach((op) => {
+    //         const code = op.charAt(0);
+    //         const value = op.substring(1);
 
-            switch (code) {
-                case '#':
-                    icon.color = Number(value);
-                    break;
-                case '%':
-                    icon.rotation = Number(value);
-                    break;
-            }
+    //         switch (code) {
+    //             case '#':
+    //                 icon.color = Number(value);
+    //                 break;
+    //             case '%':
+    //                 icon.rotation = Number(value);
+    //                 break;
+    //         }
 
-            const iconLookup = iconMap[iconName] || {};
-            return { ...icon, ...iconLookup };
-        });
+    //         const iconLookup = iconMap[iconName] || {};
+    //         return { ...icon, ...iconLookup };
+    //     });
 
-    return icon;
+    return iconMap[iconName] || {};
 };
 
 const splitParams = (rawParams) => {
@@ -74,7 +74,8 @@ const extractNameTextArray = (params) => {
         }
     };
 
-    pack(params);
+    pack(...params);
+    
 
     return arr;
 };

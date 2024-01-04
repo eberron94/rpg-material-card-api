@@ -1,32 +1,47 @@
-.element {
-  margin: 0.2rem 0.1rem;
+.content {
+    margin: 0.2rem 0.1rem;
 }
 
-
-
-.element .italics,
-.element.subtitle {
-  font-style: italic;
+.content .italic,
+.content.subtitle,
+.content.description .line-name {
+    font-style: italic;
 }
 
-.element .bold,
-.element .line-name {
-  font-weight: bold;
+.content .bold,
+.content .line-name {
+    font-weight: bold;
 }
 
-.element .line-name:after {
-  content: " ";
+.content .line-name:after {
+    content: ' ';
 }
 
-.element.list {
-  padding-left: 1rem;
+/* PROPERTY CONTENT */
+
+/* DESCRIPTION CONTENT */
+
+.content.description .line-name:after {
+    content: '. ';
 }
-.element.list .line-symbol {
-  position: relative;
-  left: -0.5rem;
-  bottom: 0.2rem;
+
+/* LIST CONTENT */
+.content.list {
+    padding-left: 1rem;
 }
-.element.list .line-symbol::after {
-  content: "▶";
-  font-size: 0.5rem;
+.content.list {
+    position: relative;
 }
+.content.list::before {
+    height: 0;
+    width: 0;
+    overflow: visible;
+    content: '▶';
+    font-size: 0.5rem;
+    position: absolute;
+
+    left: 0;
+    top: 0.2rem;
+}
+
+/* PAPER */

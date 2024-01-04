@@ -6,7 +6,7 @@ const defaultClassNames = () => ({
         icon: 'icon',
     },
 
-    element:{
+    element: {
         root: 'element',
         div: '-div',
         span: '-span',
@@ -27,15 +27,23 @@ const defaultClassNames = () => ({
         property: 'property',
         list: 'list',
         ruler: 'ruler',
+        tableGroup: 'table-group',
+        tableRow: 'table-row',
+        tableCell: 'table-cell',
 
-        
+        pfTraitGroup: "pftrait-group",
+        pfTraitItem: "pftrait-item",
     },
 
     inline: {
-        root: 'inline',
-        title: 'title',
-        icon: 'icon',
+        lineName: 'line-name',
+        lineText: 'line-text',
+
+        title: 'inline-title',
+        icon: 'inline-icon',
         linebreak: 'linebreak',
+        mdash: 'mdash',
+        ndash: 'ndash',
 
         format: {
             bold: 'bold',
@@ -49,7 +57,7 @@ const defaultClassNames = () => ({
         },
 
         pf2e: {
-            root: 'pf2e-action',
+            action: 'pf2e-action',
             oneaction: 'one-action',
             twoaction: 'two-action',
             threeaction: 'three-action',
@@ -58,10 +66,10 @@ const defaultClassNames = () => ({
         },
     },
 
-    front:{
+    front: {
         root: 'card card-front',
         icon: 'icon',
-        content: 'content',
+        content: 'card-content',
     },
 
     back: {

@@ -30,17 +30,34 @@ const replaceNewLineCarrots = (string) => {
     return string.replace(/(?:<br *\/?>|\^\^)/g, lineBreak);
 };
 
-const replaceIconInline = (string) => {
+const replaceMDash = (string) => {
+    const mdash = elementSpan(CLASSNAMES.inline.mdash)('&mdash;');
+
+    return string.replace(/(?:---|—)/g, mdash);
+};
+
+const replaceNDash = (string) => {
+    const ndash = elementSpan(CLASSNAMES.inline.ndash)('&ndash;');
+
+    return string.replace(/(?:--|–)/g, ndash);
+};
+
+const replaceIconInline = (string, cardData, options, iconMap) => {
     const iconImg = element('img', CLASSNAMES.inline.icon);
 
     return string.replace(
-        /(?:\{|\[\[) ?icon? ([^\]\}]+)? (?:\}|\]\])/g,
-        (_, match) => {
-            const { path, rotation } = iconBundleInline(match);
+        /(?:\{|\[\[) *icon *([^\]\}]+) *(?:\}|\]\])/g,
+        (_, matchCode) => {
+            const { path, rotation } = iconBundleInline({
+                params: [matchCode],
+                cardData,
+                options,
+                iconMap,
+            });
             return iconImg(
-                '',
-                CLASSNAMES.inline.icon + '-' + match,
-                `src="${path}" style="transform:rotate${rotation}deg"`
+                'ICON',
+                CLASSNAMES.inline.icon + '-' + matchCode,
+                `src="${path}" alt="~${matchCode}~" style="transform:rotate ${rotation}deg"`
             );
         }
     );
@@ -55,34 +72,34 @@ const replaceTitle = (string, cardData) => {
 };
 
 const replacePathfinder2EActions = (string) => {
-    const action = elementSpan('pf2e-action');
+    const action = elementSpan(CLASSNAMES.inline.pf2e.action);
 
     // Handles both {action-type} and [[action-type]]
     return string
         .replace(
             //replace 1A
             /(\{one-action\}|\[\[one-action\]\])/g,
-            action('1', 'one-action')
+            action('1', CLASSNAMES.inline.pf2e.oneaction)
         )
         .replace(
             //replace 2A
             /(\{two-action\}|\[\[two-action\]\])/g,
-            action('2', 'two-action')
+            action('2', CLASSNAMES.inline.pf2e.twoaction)
         )
         .replace(
             //replace 3A
             /(\{three-action\}|\[\[three-action\]\])/g,
-            action('3', 'three-action')
+            action('3', CLASSNAMES.inline.pf2e.threeaction)
         )
         .replace(
             //replace RA
             /(\{reaction\}|\[\[reaction\]\])/g,
-            action('R', 'reaction')
+            action('R', CLASSNAMES.inline.pf2e.reaction)
         )
         .replace(
             //replace FA
             /(\{free-action\}|\[\[free-action\]\])/g,
-            action('F', 'free-action')
+            action('F', CLASSNAMES.inline.pf2e.freeaction)
         );
 };
 
@@ -90,13 +107,15 @@ const shinkExtraSpace = (string) => {
     return string.replace(/  +/g, ' ');
 };
 
-const stylize = (string, params) => {
+const stylize = (string, cardData, options, iconMap) => {
     switch (typeof string) {
         case 'string':
             break;
         case 'object':
             if (Array.isArray(string)) {
-                return string.map(stylize).join(' ');
+                return string
+                    .map((s) => stylize(s, string, cardData, options, iconMap))
+                    .join(' ');
             }
         default:
             return string;
@@ -108,13 +127,22 @@ const stylize = (string, params) => {
         replaceBold,
         replaceItalics,
         replaceNewLineCarrots,
+        replaceMDash,
+        replaceNDash,
         replacePathfinder2EActions,
         replaceIconInline,
 
         //TODO: Inject custom stylizers?
 
         shinkExtraSpace,
-    ].reduce((editString, fn) => fn(editString, params), string);
+    ].reduce(
+        (editString, fn) => fn(editString, cardData, options, iconMap),
+        string
+    );
 };
 
-exports.markupUtil = { stylize };
+exports.markupUtil = {
+    stylizer: (cardData, options, iconMap) => {
+        return (string) => stylize(string, cardData, options, iconMap);
+    },
+};
