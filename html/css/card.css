@@ -1,0 +1,192 @@
+:root {
+    --card-color: indianred;
+    --card-font-mix-color: white;
+
+    --pf-trait-border-color: #c99d51;
+    --pf-trait-color: #472c2c;
+    --pf-trait-color-uncommon: #c45500;
+    --pf-trait-color-rare: #0c1466;
+    --pf-trait-color-unique: #800080;
+
+    --title-font-size: 12pt;
+    --body-font-size: 8pt;
+}
+
+.card {
+    margin: 0;
+    padding: 0;
+}
+
+/*** TITLE ***/
+
+.title {
+    display: flex;
+    font-size: var(--title-font-size);
+    font-variant: small-caps;
+    font-weight: bold;
+    line-height: 1.1em;
+    background-color: var(--card-color, black);
+    color: var(--card-font-mix-color, white);
+
+    padding: 0.1rem 0.3rem 0.3rem 0.3rem;
+    margin: 0;
+
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.title .icon-front {
+    width: var(--title-font-size);
+    height: var(--title-font-size);
+}
+
+.title .code {
+    font-size: 0.6em;
+    line-height: 0.6rem;
+}
+
+/* TITLE FORMAT */
+/* ICON-NAME-CODE needs special formatting. Icon and name are bunched, with code on the far right side. */
+
+.title.icon-name-code {
+    justify-content: flex-start;
+}
+
+.title.icon-name-code .icon-front {
+    margin-right: 0.2em;
+}
+
+.title.icon-name-code .name {
+    flex-grow: 10;
+}
+
+/*** CONTENT ***/
+
+.card-content {
+    display: flex;
+    flex-direction: column;
+    font-size: var(--body-font-size, 10pt);
+    /* padding: 0.5rem; */
+}
+
+.content {
+    margin: 0.2em 0.5em;
+}
+
+.content .italic,
+.content.subtitle,
+.content.description .line-name {
+    font-style: italic;
+}
+
+.content .bold,
+.content .line-name {
+    font-weight: bold;
+}
+
+.content .line-name:after {
+    content: " ";
+}
+
+/* SECTION CONTENT */
+
+.section {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: flex-end;
+
+    font-size: 1.1em;
+
+    border-bottom: 0.2em solid var(--card-color, black);
+    font-variant: small-caps;
+    margin: 0 0 0.2em 0;
+    padding: 0 0.4em;
+}
+
+/* PROPERTY CONTENT */
+
+/* DESCRIPTION CONTENT */
+
+.content.description .line-name:after {
+    content: ". ";
+}
+
+/* LIST CONTENT */
+.content.list {
+    padding-left: 1em;
+}
+.content.list {
+    position: relative;
+}
+.content.list::before {
+    height: 0;
+    width: 0;
+    overflow: visible;
+    content: "▶";
+    font-size: 0.5em;
+    position: absolute;
+    color: var(--card-color, black);
+
+    left: 0;
+    top: 0.2em;
+}
+
+/* ICON */
+.inline-icon {
+    display: inline-block;
+    width: 0.8em;
+    height: 0.8em;
+    vertical-align: middle;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: var(--card-color, black);
+    border-radius: 0.2em;
+}
+
+/* PF2E TRAIT */
+
+@font-face {
+    font-family: PF2E;
+    src: url("../font/Pathfinder2eActions.ttf");
+}
+
+.pftrait-item {
+    border-color: var(--pf-trait-border-color);
+    border-style: double;
+    border-width: 0.1em;
+    background-color: var(--pf-trait-color);
+    color: white;
+    font-size: 0.8em;
+    font-style: normal;
+    font-variant: small-caps;
+    font-weight: bold;
+    text-transform: uppercase;
+    padding: 0 0.2em;
+}
+
+.pftrait-item.uncommon {
+    background-color: var(--pf-trait-color-uncommon);
+}
+
+.pftrait-item.rare {
+    background-color: var(--pf-trait-color-rare);
+}
+
+.pftrait-item.unique {
+    background-color: var(--pf-trait-color-unique);
+}
+
+/* PF2E ACTION */
+
+.pf2e-action {
+    font-family: PF2E;
+    font-weight: 400;
+    line-height: 0;
+    user-select: none;
+}
+
+/* PAPER */

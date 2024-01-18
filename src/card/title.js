@@ -3,11 +3,14 @@ const {
     titleCodeString,
     iconBundleFront,
     titleFormatString,
-} = require('../helper/dataUtil');
-const { elementDiv, elementSpan } = require('../helper/elementUtil');
-const { iconFront } = require('./iconFront');
+} = require("../helper/dataUtil");
+const { elementDiv, elementSpan } = require("../helper/elementUtil");
+const { markupUtil } = require("../helper/markupUtil");
+const { iconFront } = require("./iconFront");
 
 exports.title = (params) => {
+    const markup = markupUtil.markup();
+
     const div = elementDiv();
     const span = elementSpan();
 
@@ -18,19 +21,20 @@ exports.title = (params) => {
     const icon = iconFront(params);
 
     const content = [];
-    titleFormat.split('-').forEach((format) => {
+    titleFormat.split("-").forEach((format) => {
         switch (format) {
-            case 'name':
-                content.push(span(text, 'name'));
+            case "name":
+                content.push(span(markup(text), "name"));
                 break;
-            case 'icon':
+            case "icon":
+            case "icons":
                 content.push(icon);
                 break;
-            case 'code':
-                content.push(span(code, 'code'));
+            case "code":
+                content.push(span(code, "code"));
                 break;
         }
     });
 
-    return div(content, ['title', titleFormat]);
+    return div(content, ["title", titleFormat]);
 };

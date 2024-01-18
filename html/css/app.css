@@ -1,0 +1,49 @@
+@media print {
+  body {
+    all: initial;
+  }
+
+  /* html,
+  html * {
+    all: unset;
+  } */
+
+  header {
+    display: none !important;
+  }
+
+  body {
+    margin: 0 !important;
+  }
+
+  @page {
+    size: auto;
+    margin-left: 1cm;
+    margin-right: 1cm;
+    margin-bottom: 5mm;
+    margin-top: 10mm;
+  }
+
+  html {
+    visibility: hidden;
+  }
+
+  #print-content {
+    visibility: visible;
+    display: block !important;
+    line-height: 0;
+  }
+
+  #print-content .card {
+    display: inline-block;
+    width: 70mm;
+    height: 120mm;
+    -moz-column-break-inside: avoid;
+    break-inside: avoid;
+
+    overflow: hidden;
+
+    border: 1px dashed lightgrey;
+    line-height: normal;
+  }
+}

@@ -1,8 +1,8 @@
 const defaultIconBundle = () => ({
-    icon: 'ace',
+    icon: "ace",
     rotation: 0,
-    color: '',
-    path: '',
+    color: "",
+    path: "",
 });
 
 /**
@@ -13,7 +13,7 @@ const defaultIconBundle = () => ({
  */
 const getIconBundle = (iconString, iconMap) => {
     const icon = defaultIconBundle();
-    if (!iconString || typeof iconString !== 'string') return icon;
+    if (!iconString || typeof iconString !== "string") return icon;
 
     //Extract (icon id)(#rotation)(%color) from string
     const result = iconString.match(
@@ -45,26 +45,26 @@ const getIconBundle = (iconString, iconMap) => {
 
 const splitParams = (rawParams) => {
     const dividedParams = rawParams
-        .replaceAll('\\|', '~#~')
-        .split('|')
-        .map((param) => param.replaceAll('~#~', '|'))
+        .replaceAll("\\|", "~#~")
+        .split("|")
+        .map((param) => param.replaceAll("~#~", "|"))
         .map((param) => param.trim());
 
     const [typeRaw, ...params] = dividedParams;
-    const [type, decorationRaw = ''] = typeRaw.split(':');
-    const dividedDecoration = decorationRaw.split(';');
+    const [type, decorationRaw = ""] = typeRaw.split(":");
+    const dividedDecoration = decorationRaw.split(";");
 
     return {
         type,
         decoration: {},
         _decoration: dividedDecoration,
         params,
-        html: '',
+        html: "",
     };
 };
 
 const extractText = (params) => params[0];
-const extractTextArray = (params) => params.map((e) => e || '');
+const extractTextArray = (params) => params.map((e) => e || "");
 const extractNameTextArray = (params) => {
     const arr = [];
     const pack = (name, text, ...args) => {
@@ -75,7 +75,6 @@ const extractNameTextArray = (params) => {
     };
 
     pack(...params);
-    
 
     return arr;
 };
@@ -85,7 +84,7 @@ const colorFront = ({ cardData = {}, options = {} }) => {
         cardData.color_front ||
         cardData.color ||
         options.default_color ||
-        'black'
+        "black"
     );
 };
 
@@ -94,28 +93,28 @@ const colorBack = ({ cardData = {}, options = {} }) => {
         cardData.color_back ||
         cardData.color ||
         options.default_color ||
-        'black'
+        "black"
     );
 };
 
 const iconBundleFront = ({ cardData = {}, options = {}, iconMap }) => {
     const iconString =
-        cardData.icon_front || cardData.icon || options.default_icon || 'ace';
+        cardData.icon_front || cardData.icon || options.default_icon || "ace";
 
     return getIconBundle(iconString, iconMap);
 };
 
 const iconBundleBack = ({ cardData = {}, options = {}, iconMap }) => {
     const iconString =
-        cardData.icon_back || cardData.icon || options.default_icon || 'ace';
+        cardData.icon_back || cardData.icon || options.default_icon || "ace";
 
     return getIconBundle(iconString, iconMap);
 };
 
 const iconBundleInline = ({ params, cardData = {}, options = {}, iconMap }) => {
-    const iconString = params[0] || '';
-    const size = params[1] || '6';
-    const align = params[2] || '';
+    const iconString = params[0] || "";
+    const size = params[1] || "6";
+    const align = params[2] || "";
     const count = Number(params[3]) || 1;
     const rounded = Boolean(params[4]) ? 2 : 0;
     const color = colorFront({ cardData, options });
@@ -130,15 +129,15 @@ const cardCount = ({ cardData = {}, options = {} }) => {
 };
 
 const titleCodeString = ({ cardData = {}, options = {} }) => {
-    return String(cardData.code) || String(options.default_code) || '';
+    return String(cardData.code) || String(options.default_code) || "";
 };
 
 const titleTextString = ({ cardData = {}, options = {} }) => {
-    return String(cardData.title) || String(options.default_title) || '';
+    return String(cardData.title) || String(options.default_title) || "";
 };
 
 const titleFormatString = ({ cardData = {}, options = {} }) => {
-    return cardData.title_format || options.title_format || 'name-icons';
+    return cardData.title_format || options.title_format || "code-name-icon";
 };
 
 const subtitleTextString = ({ params }) => {
@@ -162,7 +161,7 @@ const descriptionNameTextArray = ({ params }) => {
 };
 
 const listNameString = ({ params }) => {
-    return params[1] ? params[0] : '';
+    return params[1] ? params[0] : "";
 };
 
 const listTextString = ({ params }) => {
