@@ -11,7 +11,7 @@ const defaultIconBundle = () => ({
  * @param {object} iconMap
  * @returns iconBundle
  */
-const getIconBundle = (iconString, iconMap) => {
+const getIconBundle = (iconString, iconMap, prependPath) => {
     const icon = defaultIconBundle();
     if (!iconString || typeof iconString !== "string") return icon;
 
@@ -40,7 +40,8 @@ const getIconBundle = (iconString, iconMap) => {
     //         return { ...icon, ...iconLookup };
     //     });
 
-    return iconMap[iconName] || {};
+    const iconLookup = iconMap[iconName] || {};
+    return { ...icon, ...iconLookup, path: prependPath + iconLookup.path };
 };
 
 const splitParams = (rawParams) => {
@@ -101,14 +102,14 @@ const iconBundleFront = ({ cardData = {}, options = {}, iconMap }) => {
     const iconString =
         cardData.icon_front || cardData.icon || options.default_icon || "ace";
 
-    return getIconBundle(iconString, iconMap);
+    return getIconBundle(iconString, iconMap, options.icon_path || "");
 };
 
 const iconBundleBack = ({ cardData = {}, options = {}, iconMap }) => {
     const iconString =
         cardData.icon_back || cardData.icon || options.default_icon || "ace";
 
-    return getIconBundle(iconString, iconMap);
+    return getIconBundle(iconString, iconMap, options.icon_path || "");
 };
 
 const iconBundleInline = ({ params, cardData = {}, options = {}, iconMap }) => {
@@ -119,7 +120,7 @@ const iconBundleInline = ({ params, cardData = {}, options = {}, iconMap }) => {
     const rounded = Boolean(params[4]) ? 2 : 0;
     const color = colorFront({ cardData, options });
 
-    const iconBundle = getIconBundle(iconString, iconMap);
+    const iconBundle = getIconBundle(iconString, iconMap, options.icon_path || "");
 
     return { ...iconBundle, size, align, color, count, rounded };
 };

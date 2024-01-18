@@ -61,6 +61,8 @@ const testCard = {
         card_height: "5in",
         scale: 1,
         shrink: true,
+        icon_path:
+            "https://raw.githubusercontent.com/eberron94/rpg-material-cards/0ce001cc02bbd4a23eec4a9cb7e6eff4ad54a144/public",
     },
     iconMap,
 };
